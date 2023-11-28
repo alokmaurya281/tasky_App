@@ -45,6 +45,8 @@ dependencies:
   permission_handler: ^11.1.0
   introduction_screen: ^3.1.12
   shared_preferences: ^2.2.2
+  loading_indicator: ^3.1.1
+  firebase_storage: ^11.5.2
 
 dev_dependencies:
   flutter_test:

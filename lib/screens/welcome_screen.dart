@@ -1,10 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
-import 'package:tasky_app/screens/home_screen.dart';
+import 'package:tasky_app/screens/auth/login_screen.dart';
 
 class WelcomeScreen extends StatefulWidget {
-  const WelcomeScreen({super.key});
+  final shared;
+  const WelcomeScreen({super.key, required this.shared});
 
   @override
   State<WelcomeScreen> createState() => _WelcomeScreenState();
@@ -13,10 +14,13 @@ class WelcomeScreen extends StatefulWidget {
 class _WelcomeScreenState extends State<WelcomeScreen> {
   final introKey = GlobalKey<IntroductionScreenState>();
 
-  void _onIntroEnd(context) {
+  Future<void> _onIntroEnd(context) async {
     Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (_) => const HomeScreen()),
+      MaterialPageRoute(
+        builder: (_) => const LoginScreen(),
+      ),
     );
+    await widget.shared.setBool('isWelcome', false);
   }
 
   Widget _buildImage(String assetName, [double width = 350]) {

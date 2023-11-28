@@ -70,6 +70,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '143734232601',
     projectId: 'tasky-app-26a30',
     storageBucket: 'tasky-app-26a30.appspot.com',
+    androidClientId: '143734232601-9a8fsmo5hkjad76q0m6cbc4bmrhn6cee.apps.googleusercontent.com',
+    iosClientId: '143734232601-c65hgbqfdo04k17cjm3oddi1ctj4s1b5.apps.googleusercontent.com',
     iosBundleId: 'com.example.taskyApp',
   );
 }

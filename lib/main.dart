@@ -1,29 +1,33 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:tasky_app/firebase_options.dart';
+import 'package:tasky_app/apis/authentication.dart';
+import 'package:tasky_app/screens/auth/login_screen.dart';
+import 'package:tasky_app/screens/home_screen.dart';
 import 'package:tasky_app/screens/welcome_screen.dart';
+import 'package:tasky_app/utils/intialize_app.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await intializeApp();
+  final prefs = await InitializeApp.intialize();
   runApp(
-    const MyApp(),
+    MyApp(shared: prefs),
   );
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final shared;
+  const MyApp({super.key, required this.shared});
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    bool isWelcome = shared.getBool('isWelcome') ?? true;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme),
         colorScheme: const ColorScheme.light(
-          background: Colors.white,
+          background: Color.fromARGB(255, 230, 232, 255),
           primary: Color.fromARGB(255, 65, 14, 160),
           onPrimary: Colors.black,
           secondary: Color.fromARGB(255, 140, 140, 140),
@@ -53,7 +57,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
         primaryColor: const Color.fromRGBO(95, 55, 225, 1),
       ),
-      themeMode: ThemeMode.dark,
+      themeMode: ThemeMode.system,
       darkTheme: ThemeData(
         textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme),
         colorScheme: const ColorScheme.dark(
@@ -74,7 +78,7 @@ class MyApp extends StatelessWidget {
             color: Colors.white,
             size: 24,
           ),
-          backgroundColor: Color.fromARGB(255, 57, 11, 57),
+          backgroundColor: Color.fromARGB(255, 32, 29, 32),
           elevation: 5,
           // backgroundColor: Color.fromARGB(255, 57, 11, 57),
         ),
@@ -89,15 +93,13 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
         primaryColor: const Color.fromRGBO(95, 55, 225, 1),
       ),
-      home: const WelcomeScreen(),
+      home: isWelcome
+          ? WelcomeScreen(
+              shared: shared,
+            )
+          : Authentication.user != null
+              ? const HomeScreen()
+              : const LoginScreen(),
     );
   }
-}
-
-// intialize app
-
-intializeApp() async {
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
 }
