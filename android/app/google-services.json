@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "143734232601",
+    "project_id": "tasky-app-26a30",
+    "storage_bucket": "tasky-app-26a30.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:143734232601:android:afe9611f595c875af0bc88",
+        "android_client_info": {
+          "package_name": "com.example.tasky_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD2P-90yios1RU7vl4F764uUcy_66FLBwM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
