@@ -149,6 +149,24 @@ class Authentication {
     return null;
   }
 
+  static forgotPassword(String email, BuildContext context) async {
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+      return Dialogs.showSnackBar(context, 'Reset Email Sent!', false);
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        Dialogs.showSnackBar(
+            context, 'Entered Email is not valid No User Found', true);
+      } else {
+        Dialogs.showSnackBar(context, ' Authentication Error', true);
+      }
+    } catch (e) {
+      print(e);
+      Dialogs.showSnackBar(context, ' Authentication Error', true);
+    }
+    return null;
+  }
+
   static Future<void> signout(BuildContext context) async {
     try {
       await auth.signOut();

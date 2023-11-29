@@ -26,13 +26,13 @@ class _SignupScreenState extends State<SignupScreen> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
             child: SizedBox(
-              height: 760,
+              height: 710,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const SizedBox(
-                    height: 80,
+                    height: 20,
                   ),
                   Image.asset(
                     'assets/icons/tasky_logo.png',
@@ -65,8 +65,8 @@ class _SignupScreenState extends State<SignupScreen> {
                     ),
                     child: TextFormField(
                       controller: nameController,
-                      style: const TextStyle(
-                        color: Color.fromARGB(246, 26, 25, 25),
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onPrimary,
                       ),
                       decoration: const InputDecoration(
                         border: InputBorder.none,
@@ -90,8 +90,8 @@ class _SignupScreenState extends State<SignupScreen> {
                     ),
                     child: TextFormField(
                       controller: emailController,
-                      style: const TextStyle(
-                        color: Color.fromARGB(246, 26, 25, 25),
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onPrimary,
                       ),
                       decoration: const InputDecoration(
                         border: InputBorder.none,
@@ -115,8 +115,8 @@ class _SignupScreenState extends State<SignupScreen> {
                     ),
                     child: TextFormField(
                       controller: passwordController,
-                      style: const TextStyle(
-                        color: Color.fromARGB(246, 26, 25, 25),
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onPrimary,
                       ),
                       obscureText: true,
                       decoration: const InputDecoration(
@@ -188,7 +188,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       Text(
                         "Already Have an account?",
                         style: TextStyle(
-                          fontSize: 14,
+                          fontSize: 16,
                           fontWeight: FontWeight.w500,
                           color: Theme.of(context).colorScheme.onPrimary,
                         ),
@@ -209,7 +209,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         child: Text(
                           'Login',
                           style: TextStyle(
-                            fontSize: 14,
+                            fontSize: 16,
                             fontWeight: FontWeight.w500,
                             color: Theme.of(context).colorScheme.primary,
                           ),
@@ -247,10 +247,10 @@ class _SignupScreenState extends State<SignupScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text(
+                          const Text(
                             'Sign in with',
                             style: TextStyle(
-                              color: Theme.of(context).primaryColor,
+                              color: Colors.black,
                               fontWeight: FontWeight.w500,
                               fontSize: 16,
                             ),
@@ -285,10 +285,10 @@ class _SignupScreenState extends State<SignupScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text(
+                          const Text(
                             'Sign in with',
                             style: TextStyle(
-                              color: Theme.of(context).primaryColor,
+                              color: Colors.black,
                               fontWeight: FontWeight.w500,
                               fontSize: 16,
                             ),

@@ -61,8 +61,8 @@ class MyApp extends StatelessWidget {
       darkTheme: ThemeData(
         textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme),
         colorScheme: const ColorScheme.dark(
-          background: Color.fromARGB(255, 57, 11, 57),
-          primary: Color.fromARGB(255, 67, 215, 245),
+          background: Color.fromARGB(255, 40, 38, 40),
+          primary: Color.fromARGB(255, 230, 206, 27),
           onBackground: Colors.white,
           onPrimary: Colors.white,
           secondary: Color.fromARGB(255, 182, 182, 182),
@@ -78,7 +78,7 @@ class MyApp extends StatelessWidget {
             color: Colors.white,
             size: 24,
           ),
-          backgroundColor: Color.fromARGB(255, 32, 29, 32),
+          backgroundColor: Color.fromARGB(255, 34, 34, 34),
           elevation: 5,
           // backgroundColor: Color.fromARGB(255, 57, 11, 57),
         ),
@@ -87,11 +87,11 @@ class MyApp extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(15),
             ),
-            backgroundColor: const Color.fromARGB(255, 67, 215, 245),
+            backgroundColor: const Color.fromARGB(255, 230, 206, 27),
           ),
         ),
         useMaterial3: true,
-        primaryColor: const Color.fromRGBO(95, 55, 225, 1),
+        primaryColor: const Color.fromARGB(255, 230, 206, 27),
       ),
       home: isWelcome
           ? WelcomeScreen(

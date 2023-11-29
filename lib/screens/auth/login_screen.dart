@@ -22,17 +22,18 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: ListView(
+        scrollDirection: Axis.vertical,
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
             child: SizedBox(
-              height: 760,
+              height: 710,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const SizedBox(
-                    height: 80,
+                    height: 20,
                   ),
                   Image.asset(
                     'assets/icons/tasky_logo.png',
@@ -66,8 +67,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     child: TextFormField(
                       controller: emailController,
-                      style: const TextStyle(
-                        color: Color.fromARGB(246, 26, 25, 25),
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onPrimary,
                       ),
                       decoration: const InputDecoration(
                         border: InputBorder.none,
@@ -91,8 +92,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     child: TextFormField(
                       controller: passwordController,
-                      style: const TextStyle(
-                        color: Color.fromARGB(246, 26, 25, 25),
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onPrimary,
                       ),
                       obscureText: true,
                       decoration: const InputDecoration(
@@ -245,10 +246,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text(
+                          const Text(
                             'Sign in with',
                             style: TextStyle(
-                              color: Theme.of(context).primaryColor,
+                              color: Colors.black,
                               fontWeight: FontWeight.w500,
                               fontSize: 16,
                             ),
@@ -283,10 +284,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text(
+                          const Text(
                             'Sign in with',
                             style: TextStyle(
-                              color: Theme.of(context).primaryColor,
+                              color: Colors.black,
                               fontWeight: FontWeight.w500,
                               fontSize: 16,
                             ),

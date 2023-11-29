@@ -1,4 +1,9 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
+import 'package:tasky_app/apis/authentication.dart';
+import 'package:tasky_app/screens/auth/login_screen.dart';
+import 'package:tasky_app/utils/dialogs.dart';
 
 class ResetPassword extends StatefulWidget {
   const ResetPassword({super.key});
@@ -19,7 +24,7 @@ class _ResetPasswordState extends State<ResetPassword> {
           // crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const SizedBox(
-              height: 120,
+              height: 80,
             ),
             Image.asset(
               'assets/icons/tasky_logo.png',
@@ -41,10 +46,10 @@ class _ResetPasswordState extends State<ResetPassword> {
             const SizedBox(
               height: 24,
             ),
-            const Text(
+            Text(
               'Please Enter your Registered email address we will send you a email to reset your password',
               style: TextStyle(
-                color: Colors.black,
+                color: Theme.of(context).colorScheme.onPrimary,
                 fontSize: 14,
                 fontWeight: FontWeight.normal,
               ),
@@ -65,8 +70,8 @@ class _ResetPasswordState extends State<ResetPassword> {
               ),
               child: TextFormField(
                 controller: emailController,
-                style: const TextStyle(
-                  color: Color.fromARGB(246, 26, 25, 25),
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onPrimary,
                 ),
                 decoration: const InputDecoration(
                   border: InputBorder.none,
@@ -84,7 +89,20 @@ class _ResetPasswordState extends State<ResetPassword> {
               width: 400,
               height: 45,
               child: ElevatedButton(
-                onPressed: () async {},
+                onPressed: () async {
+                  if (emailController.text.isNotEmpty) {
+                    Dialogs.showProgressIndicator(context);
+                    await Authentication.forgotPassword(
+                        emailController.text, context);
+                    Navigator.pop(context);
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (context) {
+                      return const LoginScreen();
+                    }));
+                  } else {
+                    Dialogs.showSnackBar(context, 'Email Required', true);
+                  }
+                },
                 child: const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
