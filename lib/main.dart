@@ -31,6 +31,7 @@ class MyApp extends StatelessWidget {
           primary: Color.fromARGB(255, 65, 14, 160),
           onPrimary: Colors.black,
           secondary: Color.fromARGB(255, 140, 140, 140),
+          onBackground: Colors.white,
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
@@ -40,58 +41,33 @@ class MyApp extends StatelessWidget {
             backgroundColor: const Color.fromARGB(255, 65, 14, 160),
           ),
         ),
-        // appBarTheme: const AppBarTheme(
-        //   titleTextStyle: TextStyle(
-        //     fontSize: 20,
-        //     fontWeight: FontWeight.w500,
-        //     color: Colors.black,
-        //   ),
-        //   iconTheme: IconThemeData(
-        //     color: Colors.black,
-        //     size: 24,
-        //   ),
-        //   elevation: 1,
-        //   backgroundColor: Color.fromARGB(255, 57, 11, 57),
-        // ),
         useMaterial3: true,
         primaryColor: const Color.fromRGBO(95, 55, 225, 1),
       ),
       themeMode: ThemeMode.system,
       darkTheme: ThemeData(
-        textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme),
-        colorScheme: const ColorScheme.dark(
-          background: Color.fromARGB(255, 40, 38, 40),
-          primary: Color.fromARGB(255, 230, 206, 27),
-          onBackground: Colors.white,
-          onPrimary: Colors.white,
-          secondary: Color.fromARGB(255, 182, 182, 182),
-        ),
-        drawerTheme: const DrawerThemeData(),
-        appBarTheme: const AppBarTheme(
-          titleTextStyle: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.w500,
-            color: Colors.white,
+          textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme),
+          colorScheme: const ColorScheme.dark(
+            background: Color.fromARGB(255, 40, 38, 40),
+            primary: Color.fromARGB(255, 65, 14, 160),
+            onBackground: Colors.white,
+            onPrimary: Colors.white,
+            secondary: Color.fromARGB(255, 240, 240, 240),
           ),
-          iconTheme: IconThemeData(
-            color: Colors.white,
-            size: 24,
-          ),
-          backgroundColor: Color.fromARGB(255, 34, 34, 34),
-          elevation: 5,
-          // backgroundColor: Color.fromARGB(255, 57, 11, 57),
-        ),
-        elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ElevatedButton.styleFrom(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15),
+          drawerTheme: const DrawerThemeData(),
+          elevatedButtonTheme: ElevatedButtonThemeData(
+            style: ElevatedButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15),
+              ),
+              backgroundColor: const Color.fromARGB(255, 65, 14, 160),
             ),
-            backgroundColor: const Color.fromARGB(255, 230, 206, 27),
           ),
-        ),
-        useMaterial3: true,
-        primaryColor: const Color.fromARGB(255, 230, 206, 27),
-      ),
+          useMaterial3: true,
+          primaryColor: const Color.fromRGBO(95, 55, 225, 1),
+          listTileTheme: ListTileThemeData(
+            textColor: Colors.black,
+          )),
       home: isWelcome
           ? WelcomeScreen(
               shared: shared,

@@ -43,91 +43,85 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Padding _taskGroupsCards(BuildContext context) {
     return Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Task Groups',
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.onPrimary,
-                      fontSize: 20,
-                      fontWeight: FontWeight.w700,
+      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Task Groups',
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.onPrimary,
+              fontSize: 20,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          const SizedBox(
+            height: 8,
+          ),
+          SizedBox(
+            width: double.infinity,
+            height: (90.0 * 10.0),
+            child: ListView.builder(
+              shrinkWrap: true,
+              primary: false,
+              itemCount: 10,
+              physics: const NeverScrollableScrollPhysics(),
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  child: ListTile(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    tileColor: Colors.white,
+                    title: const Text(
+                      'Office Project',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    subtitle: const Text(
+                      '23 Tasks',
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                    leading: Container(
+                      width: 40,
+                      height: 40,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        color: const Color.fromARGB(255, 250, 218, 218),
+                      ),
+                      child: const Icon(
+                        Icons.shopping_bag,
+                        size: 24,
+                        color: Color.fromARGB(255, 175, 119, 119),
+                      ),
+                    ),
+                    trailing: CircularPercentIndicator(
+                      lineWidth: 6,
+                      percent: 0.70,
+                      backgroundColor: const Color.fromARGB(255, 250, 218, 218),
+                      progressColor: const Color.fromARGB(255, 175, 119, 119),
+                      radius: 25,
+                      center: const Text(
+                        '70%',
+                        style: TextStyle(
+                          fontSize: 13,
+                        ),
+                      ),
                     ),
                   ),
-                  SizedBox(
-                    width: double.infinity,
-                    height: (90.0 * 10.0),
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      primary: false,
-                      itemCount: 10,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8),
-                          child: ListTile(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            tileColor: Colors.white,
-                            title: Text(
-                              'Office Project',
-                              style: TextStyle(
-                                color:
-                                    Theme.of(context).colorScheme.onPrimary,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                            subtitle: Text(
-                              '23 Tasks',
-                              style: TextStyle(
-                                color:
-                                    Theme.of(context).colorScheme.secondary,
-                                fontSize: 13,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                            leading: Container(
-                              width: 40,
-                              height: 40,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                color:
-                                    const Color.fromARGB(255, 250, 218, 218),
-                              ),
-                              child: const Icon(
-                                Icons.shopping_bag,
-                                size: 24,
-                                color: Color.fromARGB(255, 175, 119, 119),
-                              ),
-                            ),
-                            trailing: CircularPercentIndicator(
-                              lineWidth: 6,
-                              percent: 0.70,
-                              backgroundColor:
-                                  const Color.fromARGB(255, 250, 218, 218),
-                              progressColor:
-                                  const Color.fromARGB(255, 175, 119, 119),
-                              radius: 25,
-                              center: Text(
-                                '70%',
-                                style: TextStyle(
-                                  color:
-                                      Theme.of(context).colorScheme.onPrimary,
-                                  fontSize: 13,
-                                ),
-                              ),
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            );
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   Padding _inProgressTasksItems(BuildContext context) {
@@ -246,7 +240,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Text(
                       'Your today\s task almost done!.',
                       style: TextStyle(
-                        color: Theme.of(context).colorScheme.background,
+                        color: Theme.of(context).colorScheme.onBackground,
                         fontSize: 16,
                       ),
                     ),
@@ -257,12 +251,12 @@ class _HomeScreenState extends State<HomeScreen> {
                       onPressed: () {},
                       style: ElevatedButton.styleFrom(
                         backgroundColor:
-                            Theme.of(context).colorScheme.background,
+                            Theme.of(context).colorScheme.onBackground,
                       ),
                       child: Text(
                         'View Task',
                         style: TextStyle(
-                          color: Theme.of(context).colorScheme.primary,
+                          color: Theme.of(context).primaryColor,
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
                         ),
@@ -282,7 +276,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   center: Text(
                     '85%',
                     style: TextStyle(
-                      color: Theme.of(context).colorScheme.background,
+                      color: Theme.of(context).colorScheme.onBackground,
                     ),
                   ),
                 ),
@@ -309,7 +303,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           icon: Icon(
                             Icons.more_horiz,
                             size: 24,
-                            color: Theme.of(context).colorScheme.background,
+                            color: Theme.of(context).colorScheme.onBackground,
                           ),
                         ),
                       ),

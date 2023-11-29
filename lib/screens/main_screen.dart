@@ -39,6 +39,7 @@ class _MainScreenState extends State<MainScreen> {
           width: 50,
           height: 50,
           child: FloatingActionButton(
+            backgroundColor: Theme.of(context).primaryColor,
             elevation: 0,
             onPressed: () {
               onTapItem(2);
@@ -65,7 +66,7 @@ class _MainScreenState extends State<MainScreen> {
             shape: const CircularNotchedRectangle(),
             notchMargin: 4,
             elevation: 0,
-            color: Theme.of(context).colorScheme.primary.withOpacity(.2),
+            color: Theme.of(context).colorScheme.primary.withOpacity(.5),
             child: BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
               child: Row(
@@ -79,8 +80,8 @@ class _MainScreenState extends State<MainScreen> {
                       Icons.home,
                       size: 22,
                       color: widget.currntIndex == 0
-                          ? Theme.of(context).colorScheme.primary
-                          : const Color.fromARGB(255, 109, 109, 109),
+                          ? Theme.of(context).primaryColor
+                          : Theme.of(context).colorScheme.onBackground,
                     ),
                   ),
                   IconButton(
@@ -90,8 +91,8 @@ class _MainScreenState extends State<MainScreen> {
                     icon: Icon(
                       Icons.calendar_month,
                       color: widget.currntIndex == 1
-                          ? Theme.of(context).colorScheme.primary
-                          : const Color.fromARGB(255, 109, 109, 109),
+                          ? Theme.of(context).primaryColor
+                          : Theme.of(context).colorScheme.onBackground,
                       size: 22,
                     ),
                   ),
@@ -105,8 +106,8 @@ class _MainScreenState extends State<MainScreen> {
                     icon: Icon(
                       Icons.note,
                       color: widget.currntIndex == 3
-                          ? Theme.of(context).colorScheme.primary
-                          : const Color.fromARGB(255, 109, 109, 109),
+                          ? Theme.of(context).primaryColor
+                          : Theme.of(context).colorScheme.onBackground,
                       size: 22,
                     ),
                   ),
@@ -117,8 +118,8 @@ class _MainScreenState extends State<MainScreen> {
                     icon: Icon(
                       Icons.person,
                       color: widget.currntIndex == 4
-                          ? Theme.of(context).colorScheme.primary
-                          : const Color.fromARGB(255, 109, 109, 109),
+                          ? Theme.of(context).primaryColor
+                          : Theme.of(context).colorScheme.onBackground,
                       size: 22,
                     ),
                   )
