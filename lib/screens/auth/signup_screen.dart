@@ -212,8 +212,8 @@ class _SignupScreenState extends State<SignupScreen> {
                           'Login',
                           style: TextStyle(
                             fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                            color: Theme.of(context).colorScheme.primary,
+                            fontWeight: FontWeight.w600,
+                            color: Theme.of(context).colorScheme.onPrimary,
                           ),
                         ),
                       ),
