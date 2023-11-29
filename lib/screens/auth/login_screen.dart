@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:tasky_app/apis/authentication.dart';
 import 'package:tasky_app/screens/auth/reset_password_screen.dart';
 import 'package:tasky_app/screens/auth/signup_screen.dart';
-import 'package:tasky_app/screens/home_screen.dart';
+import 'package:tasky_app/screens/main_screen.dart';
 import 'package:tasky_app/utils/dialogs.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -126,7 +126,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             Navigator.pop(context);
                             Navigator.pushReplacement(context,
                                 MaterialPageRoute(builder: (context) {
-                              return const HomeScreen();
+                              return MainScreen(
+                                currntIndex: 0,
+                              );
                             }));
                           } else {
                             Navigator.pop(context);
@@ -216,7 +218,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ],
                   ),
-                  Spacer(),
+                  const Spacer(),
                   SizedBox(
                     width: 400,
                     height: 50,
@@ -236,7 +238,9 @@ class _LoginScreenState extends State<LoginScreen> {
                               context, "Logged In Successfully", false);
                           Navigator.pushReplacement(context,
                               MaterialPageRoute(builder: (context) {
-                            return const HomeScreen();
+                            return MainScreen(
+                              currntIndex: 0,
+                            );
                           }));
                         } else {
                           Navigator.of(context).pop();

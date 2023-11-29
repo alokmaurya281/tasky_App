@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tasky_app/apis/authentication.dart';
 import 'package:tasky_app/screens/auth/login_screen.dart';
-import 'package:tasky_app/screens/home_screen.dart';
+import 'package:tasky_app/screens/main_screen.dart';
 import 'package:tasky_app/screens/welcome_screen.dart';
 import 'package:tasky_app/utils/intialize_app.dart';
 
@@ -40,20 +40,19 @@ class MyApp extends StatelessWidget {
             backgroundColor: const Color.fromARGB(255, 65, 14, 160),
           ),
         ),
-        appBarTheme: const AppBarTheme(
-          titleTextStyle: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.w500,
-            color: Colors.black,
-          ),
-          iconTheme: IconThemeData(
-            color: Colors.black,
-            size: 24,
-          ),
-          backgroundColor: Colors.white,
-          elevation: 1,
-          // backgroundColor: Color.fromARGB(255, 57, 11, 57),
-        ),
+        // appBarTheme: const AppBarTheme(
+        //   titleTextStyle: TextStyle(
+        //     fontSize: 20,
+        //     fontWeight: FontWeight.w500,
+        //     color: Colors.black,
+        //   ),
+        //   iconTheme: IconThemeData(
+        //     color: Colors.black,
+        //     size: 24,
+        //   ),
+        //   elevation: 1,
+        //   backgroundColor: Color.fromARGB(255, 57, 11, 57),
+        // ),
         useMaterial3: true,
         primaryColor: const Color.fromRGBO(95, 55, 225, 1),
       ),
@@ -98,7 +97,9 @@ class MyApp extends StatelessWidget {
               shared: shared,
             )
           : Authentication.user != null
-              ? const HomeScreen()
+              ? MainScreen(
+                  currntIndex: 0,
+                )
               : const LoginScreen(),
     );
   }
