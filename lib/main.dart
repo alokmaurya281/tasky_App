@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme),
         colorScheme: const ColorScheme.light(
-          background: Color.fromARGB(255, 230, 232, 255),
+          background: Color.fromARGB(255, 247, 247, 255),
           primary: Color.fromARGB(255, 65, 14, 160),
           onPrimary: Colors.black,
           secondary: Color.fromARGB(255, 140, 140, 140),

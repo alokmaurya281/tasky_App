@@ -53,79 +53,70 @@ class _MainScreenState extends State<MainScreen> {
         ),
       ),
       bottomNavigationBar: Container(
-        width: double.infinity,
-        height: 60,
-        decoration: const BoxDecoration(
-          borderRadius: BorderRadius.all(
-            Radius.circular(40),
-          ),
+        height: 70,
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.background,
         ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(50),
-          child: BottomAppBar(
-            shape: const CircularNotchedRectangle(),
-            notchMargin: 4,
-            elevation: 0,
-            color: Theme.of(context).colorScheme.primary.withOpacity(.5),
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  IconButton(
-                    onPressed: () {
-                      onTapItem(0);
-                    },
-                    icon: Icon(
-                      Icons.home,
-                      size: 22,
-                      color: widget.currntIndex == 0
-                          ? Theme.of(context).primaryColor
-                          : Theme.of(context).colorScheme.onBackground,
-                    ),
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      onTapItem(1);
-                    },
-                    icon: Icon(
-                      Icons.calendar_month,
-                      color: widget.currntIndex == 1
-                          ? Theme.of(context).primaryColor
-                          : Theme.of(context).colorScheme.onBackground,
-                      size: 22,
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 25,
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      onTapItem(2);
-                    },
-                    icon: Icon(
-                      Icons.note,
-                      color: widget.currntIndex == 2
-                          ? Theme.of(context).primaryColor
-                          : Theme.of(context).colorScheme.onBackground,
-                      size: 22,
-                    ),
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      onTapItem(2);
-                    },
-                    icon: Icon(
-                      Icons.person,
-                      color: widget.currntIndex == 2
-                          ? Theme.of(context).primaryColor
-                          : Theme.of(context).colorScheme.onBackground,
-                      size: 22,
-                    ),
-                  )
-                ],
+        child: BottomAppBar(
+          shape: const CircularNotchedRectangle(),
+          notchMargin: 4,
+          elevation: 5,
+          color: Theme.of(context).colorScheme.primary,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              IconButton(
+                onPressed: () {
+                  onTapItem(0);
+                },
+                icon: Icon(
+                  Icons.home,
+                  size: widget.currntIndex == 0 ? 24 : 22,
+                  color: widget.currntIndex == 0
+                      ? Theme.of(context).colorScheme.onBackground
+                      : Theme.of(context).colorScheme.secondary,
+                ),
               ),
-            ),
+              IconButton(
+                onPressed: () {
+                  onTapItem(1);
+                },
+                icon: Icon(
+                  Icons.calendar_month,
+                  color: widget.currntIndex == 1
+                      ? Theme.of(context).colorScheme.onBackground
+                      : Theme.of(context).colorScheme.secondary,
+                  size: widget.currntIndex == 1 ? 24 : 22,
+                ),
+              ),
+              const SizedBox(
+                width: 25,
+              ),
+              IconButton(
+                onPressed: () {
+                  onTapItem(2);
+                },
+                icon: Icon(
+                  Icons.note,
+                  color: widget.currntIndex == 2
+                      ? Theme.of(context).colorScheme.onBackground
+                      : Theme.of(context).colorScheme.secondary,
+                  size: widget.currntIndex == 2 ? 24 : 22,
+                ),
+              ),
+              IconButton(
+                onPressed: () {
+                  onTapItem(3);
+                },
+                icon: Icon(
+                  Icons.person,
+                  color: widget.currntIndex == 3
+                      ? Theme.of(context).colorScheme.onBackground
+                      : Theme.of(context).colorScheme.secondary,
+                  size: widget.currntIndex == 3 ? 24 : 22,
+                ),
+              )
+            ],
           ),
         ),
       ),
@@ -170,7 +161,7 @@ class _MainScreenState extends State<MainScreen> {
                           Navigator.pop(context);
                           Navigator.push(context,
                               MaterialPageRoute(builder: (context) {
-                            return AddProjectScreen();
+                            return const AddProjectScreen();
                           }));
                         },
                         child: Text(
@@ -185,7 +176,7 @@ class _MainScreenState extends State<MainScreen> {
                           Navigator.pop(context);
                           Navigator.push(context,
                               MaterialPageRoute(builder: (context) {
-                            return AddTaskProjectScreen();
+                            return const AddTaskProjectScreen();
                           }));
                         },
                         child: Text(

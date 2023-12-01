@@ -7,7 +7,8 @@ import 'package:tasky_app/apis/projects_services.dart';
 import 'package:tasky_app/models/checkpoints.dart';
 import 'package:tasky_app/models/project_model.dart';
 import 'package:tasky_app/models/task_model.dart';
-import 'package:tasky_app/screens/tasks_screen.dart';
+import 'package:tasky_app/screens/project_information.dart';
+import 'package:tasky_app/screens/tasks_information_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -128,14 +129,17 @@ class _HomeScreenState extends State<HomeScreen> {
                                             Navigator.push(context,
                                                 MaterialPageRoute(
                                                     builder: (context) {
-                                              return TasksScreen();
+                                              return ProjectInformationScreen(
+                                                project: list[index],
+                                              );
                                             }));
                                           },
                                           shape: RoundedRectangleBorder(
                                             borderRadius:
                                                 BorderRadius.circular(20),
                                           ),
-                                          tileColor: Colors.white,
+                                          tileColor: const Color.fromARGB(
+                                              118, 219, 215, 255),
                                           title: Text(
                                             list[index].projectName,
                                             style: const TextStyle(
@@ -172,9 +176,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                             percent: (progress / 100),
                                             backgroundColor:
                                                 const Color.fromARGB(
-                                                    255, 250, 218, 218),
+                                                    56, 250, 173, 250),
                                             progressColor: const Color.fromARGB(
-                                                255, 175, 119, 119),
+                                                255, 250, 173, 250),
                                             radius: 25,
                                             center: Text(
                                               '${progress.toStringAsFixed(2)}%',
@@ -263,143 +267,148 @@ class _HomeScreenState extends State<HomeScreen> {
                               case ConnectionState.active:
                               case ConnectionState.done:
                                 return StreamBuilder(
-                                    stream:
-                                        ProjectServices.getAllCheckPointsByTask(
-                                            list[index].id),
-                                    builder: (context, snapshot) {
-                                      final checkPointsAll =
-                                          snapshot.data?.docs;
-                                      print(checkPointsAll);
-                                      List<CheckPoints> checkpointsList =
-                                          checkPointsAll
-                                                  ?.map((e) =>
-                                                      CheckPoints.fromJson(
-                                                          e.data()))
-                                                  .toList() ??
-                                              [];
-                                      // print(checkPointsAll?.length);
-                                      return StreamBuilder(
-                                          stream: ProjectServices
-                                              .getCheckPointsByStatus(
-                                                  list[index].id, 'Completed'),
-                                          builder: (context, snapshot) {
-                                            final data = snapshot.data?.docs;
-                                            // print(data);
-                                            List<CheckPoints>
-                                                completedCheckPoints = data
-                                                        ?.map((e) => CheckPoints
-                                                            .fromJson(e.data()))
-                                                        .toList() ??
-                                                    [];
-                                            final double progress =
-                                                ProjectServices
-                                                    .countProjectProgress(
-                                              checkpointsList.length.toDouble(),
-                                              completedCheckPoints.length
-                                                  .toDouble(),
-                                            );
-                                            return Card(
-                                              margin: const EdgeInsets.only(
-                                                  left: 8, right: 8),
-                                              color: const Color.fromARGB(
-                                                  168, 204, 255, 183),
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        vertical: 8,
-                                                        horizontal: 16),
-                                                child: Row(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    SizedBox(
-                                                      width: 160,
-                                                      child: Column(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceAround,
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          Text(
-                                                            projectInfo?[
-                                                                'project_name'],
-                                                            style: TextStyle(
-                                                              color: Theme.of(
-                                                                      context)
-                                                                  .colorScheme
-                                                                  .secondary,
-                                                              fontSize: 14,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .normal,
-                                                            ),
+                                  stream:
+                                      ProjectServices.getAllCheckPointsByTask(
+                                          list[index].id),
+                                  builder: (context, snapshot) {
+                                    final checkPointsAll = snapshot.data?.docs;
+                                    List<CheckPoints> checkpointsList =
+                                        checkPointsAll
+                                                ?.map((e) =>
+                                                    CheckPoints.fromJson(
+                                                        e.data()))
+                                                .toList() ??
+                                            [];
+                                    // print(checkPointsAll?.length);
+                                    return StreamBuilder(
+                                      stream: ProjectServices
+                                          .getCheckPointsByStatus(
+                                              list[index].id, 'Completed'),
+                                      builder: (context, snapshot) {
+                                        final data = snapshot.data?.docs;
+                                        // print(data);
+                                        List<CheckPoints> completedCheckPoints =
+                                            data
+                                                    ?.map((e) =>
+                                                        CheckPoints.fromJson(
+                                                            e.data()))
+                                                    .toList() ??
+                                                [];
+                                        final double progress = ProjectServices
+                                            .countProjectProgress(
+                                          checkpointsList.length.toDouble(),
+                                          completedCheckPoints.length
+                                              .toDouble(),
+                                        );
+                                        return GestureDetector(
+                                          onTap: () {
+                                            Navigator.push(context,
+                                                MaterialPageRoute(
+                                                    builder: (context) {
+                                              return TasksInformationScreen(
+                                                taskModel: list[index],
+                                              );
+                                            }));
+                                          },
+                                          child: Card(
+                                            margin: const EdgeInsets.only(
+                                                left: 8, right: 8),
+                                            color: const Color.fromARGB(
+                                                255, 239, 225, 255),
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 8,
+                                                      horizontal: 16),
+                                              child: Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  SizedBox(
+                                                    width: 160,
+                                                    child: Column(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceAround,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Text(
+                                                          projectInfo?[
+                                                              'project_name'],
+                                                          style: TextStyle(
+                                                            color: Theme.of(
+                                                                    context)
+                                                                .colorScheme
+                                                                .onPrimary,
+                                                            fontSize: 14,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .normal,
                                                           ),
-                                                          Text(
-                                                            list[index]
-                                                                .taskName,
-                                                            style: TextStyle(
-                                                              color: Theme.of(
-                                                                      context)
-                                                                  .colorScheme
-                                                                  .onPrimary,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w700,
-                                                              fontSize: 16,
-                                                            ),
-                                                          ),
-                                                          LinearPercentIndicator(
-                                                            padding:
-                                                                EdgeInsets.zero,
-                                                            barRadius:
-                                                                const Radius
-                                                                    .circular(
-                                                                    15),
-                                                            lineHeight: 8.0,
-                                                            percent:
-                                                                progress / 100,
-                                                            progressColor:
-                                                                const Color
-                                                                    .fromARGB(
-                                                                    255,
-                                                                    52,
-                                                                    103,
-                                                                    50),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                    Container(
-                                                      width: 30,
-                                                      height: 30,
-                                                      decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(15),
-                                                      ),
-                                                      child: ClipRRect(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(5),
-                                                        child:
-                                                            CachedNetworkImage(
-                                                          fit: BoxFit.cover,
-                                                          imageUrl: projectInfo?[
-                                                              'project_icon'],
                                                         ),
+                                                        Text(
+                                                          list[index].taskName,
+                                                          style: TextStyle(
+                                                            color: Theme.of(
+                                                                    context)
+                                                                .colorScheme
+                                                                .onPrimary,
+                                                            fontWeight:
+                                                                FontWeight.w700,
+                                                            fontSize: 16,
+                                                          ),
+                                                        ),
+                                                        LinearPercentIndicator(
+                                                          backgroundColor:
+                                                              Colors.white,
+                                                          padding:
+                                                              EdgeInsets.zero,
+                                                          barRadius:
+                                                              const Radius
+                                                                  .circular(15),
+                                                          lineHeight: 8.0,
+                                                          percent:
+                                                              progress / 100,
+                                                          progressColor:
+                                                              Theme.of(context)
+                                                                  .primaryColor,
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  Container(
+                                                    width: 30,
+                                                    height: 30,
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              15),
+                                                    ),
+                                                    child: ClipRRect(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              5),
+                                                      child: CachedNetworkImage(
+                                                        fit: BoxFit.cover,
+                                                        imageUrl: projectInfo?[
+                                                            'project_icon'],
                                                       ),
                                                     ),
-                                                  ],
-                                                ),
+                                                  ),
+                                                ],
                                               ),
-                                            );
-                                          });
-                                    });
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    );
+                                  },
+                                );
                             }
                           },
                         );
