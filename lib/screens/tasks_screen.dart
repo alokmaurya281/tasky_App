@@ -1,16 +1,19 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 
-class NotesScreen extends StatefulWidget {
-  const NotesScreen({super.key});
+class TasksScreen extends StatefulWidget {
+  const TasksScreen({super.key});
 
   @override
-  State<NotesScreen> createState() => _NotesScreenState();
+  State<TasksScreen> createState() => _TasksScreenState();
 }
 
-class _NotesScreenState extends State<NotesScreen> {
+class _TasksScreenState extends State<TasksScreen> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
+      top: false,
       child: Scaffold(
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -27,6 +30,11 @@ class _NotesScreenState extends State<NotesScreen> {
               const SizedBox(
                 height: 16,
               ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [],
+              )
             ],
           ),
         ),
@@ -39,16 +47,23 @@ class _NotesScreenState extends State<NotesScreen> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Padding(
-          padding: const EdgeInsets.only(left: 16.0),
-          child: Text(
-            "Notes",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: Theme.of(context).colorScheme.onPrimary,
-              fontSize: 20,
-              fontWeight: FontWeight.w700,
-            ),
+        IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: Icon(
+            Icons.arrow_back,
+            size: 24,
+            color: Theme.of(context).colorScheme.onPrimary,
+          ),
+        ),
+        Text(
+          "Tasks",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            color: Theme.of(context).colorScheme.onPrimary,
+            fontSize: 20,
+            fontWeight: FontWeight.w700,
           ),
         ),
         Padding(

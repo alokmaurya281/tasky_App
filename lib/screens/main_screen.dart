@@ -3,6 +3,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:tasky_app/screens/add_project_screen.dart';
 import 'package:tasky_app/screens/add_task_screen.dart';
 import 'package:tasky_app/screens/home_screen.dart';
 import 'package:tasky_app/screens/notes_scren.dart';
@@ -24,7 +25,6 @@ class _MainScreenState extends State<MainScreen> {
   List<Widget> pageScreen = [
     const HomeScreen(),
     const TodaysTaskScreen(),
-    const AddTaskProjectScreen(),
     const NotesScreen(),
     const ProfileScreen()
   ];
@@ -42,7 +42,7 @@ class _MainScreenState extends State<MainScreen> {
             backgroundColor: Theme.of(context).primaryColor,
             elevation: 0,
             onPressed: () {
-              onTapItem(2);
+              actionModalBottomSheet();
             },
             child: const Icon(
               Icons.add,
@@ -101,11 +101,11 @@ class _MainScreenState extends State<MainScreen> {
                   ),
                   IconButton(
                     onPressed: () {
-                      onTapItem(3);
+                      onTapItem(2);
                     },
                     icon: Icon(
                       Icons.note,
-                      color: widget.currntIndex == 3
+                      color: widget.currntIndex == 2
                           ? Theme.of(context).primaryColor
                           : Theme.of(context).colorScheme.onBackground,
                       size: 22,
@@ -113,11 +113,11 @@ class _MainScreenState extends State<MainScreen> {
                   ),
                   IconButton(
                     onPressed: () {
-                      onTapItem(4);
+                      onTapItem(2);
                     },
                     icon: Icon(
                       Icons.person,
-                      color: widget.currntIndex == 4
+                      color: widget.currntIndex == 2
                           ? Theme.of(context).primaryColor
                           : Theme.of(context).colorScheme.onBackground,
                       size: 22,
@@ -136,5 +136,71 @@ class _MainScreenState extends State<MainScreen> {
     setState(() {
       widget.currntIndex = index;
     });
+  }
+
+  void actionModalBottomSheet() {
+    showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return SizedBox(
+            height: 180,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+              child: ListView(
+                children: [
+                  Text(
+                    'Choose Action',
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.onPrimary,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(),
+                        onPressed: () {
+                          Navigator.pop(context);
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) {
+                            return AddProjectScreen();
+                          }));
+                        },
+                        child: Text(
+                          'Add Project',
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.background,
+                          ),
+                        ),
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) {
+                            return AddTaskProjectScreen();
+                          }));
+                        },
+                        child: Text(
+                          'Add Task',
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.background,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
   }
 }
