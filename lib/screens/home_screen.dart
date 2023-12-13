@@ -3,6 +3,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:tasky_app/apis/authentication.dart';
 import 'package:tasky_app/apis/projects_services.dart';
 import 'package:tasky_app/models/checkpoints.dart';
 import 'package:tasky_app/models/project_model.dart';
@@ -302,13 +303,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                         );
                                         return GestureDetector(
                                           onTap: () {
-                                            Navigator.push(context,
-                                                MaterialPageRoute(
-                                                    builder: (context) {
-                                              return TasksInformationScreen(
-                                                taskModel: list[index],
-                                              );
-                                            }));
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) {
+                                                  return TasksInformationScreen(
+                                                    taskModel: list[index],
+                                                  );
+                                                },
+                                              ),
+                                            );
                                           },
                                           child: Card(
                                             margin: const EdgeInsets.only(
@@ -598,12 +602,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SizedBox(
                   width: 16,
                 ),
-                const SizedBox(
+                SizedBox(
                   width: 50,
                   height: 50,
                   child: CircleAvatar(
                     backgroundImage: CachedNetworkImageProvider(
-                      'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fHww',
+                      Authentication.user.photoURL ??
+                          'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fHww',
                     ),
                   ),
                 ),
@@ -623,7 +628,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                     Text(
-                      'Alok Maurya',
+                      Authentication.user.displayName,
                       style: TextStyle(
                         color: Theme.of(context).colorScheme.onPrimary,
                         fontSize: 20,

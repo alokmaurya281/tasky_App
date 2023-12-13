@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously, unused_catch_clause
+// ignore_for_file: use_build_context_synchronously, unused_catch_clause, avoid_print, non_constant_identifier_names
 
 import 'dart:io';
 
@@ -176,6 +176,4 @@ class Authentication {
       print(e);
     }
   }
-
-
 }

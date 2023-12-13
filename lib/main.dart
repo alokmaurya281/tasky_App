@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_typing_uninitialized_variables
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tasky_app/apis/authentication.dart';
@@ -44,30 +46,31 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
         primaryColor: const Color.fromRGBO(95, 55, 225, 1),
       ),
-      themeMode: ThemeMode.system,
+      themeMode: ThemeMode.light,
       darkTheme: ThemeData(
-          textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme),
-          colorScheme: const ColorScheme.dark(
-            background: Color.fromARGB(255, 40, 38, 40),
-            primary: Color.fromARGB(255, 65, 14, 160),
-            onBackground: Colors.white,
-            onPrimary: Colors.white,
-            secondary: Color.fromARGB(255, 240, 240, 240),
-          ),
-          drawerTheme: const DrawerThemeData(),
-          elevatedButtonTheme: ElevatedButtonThemeData(
-            style: ElevatedButton.styleFrom(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15),
-              ),
-              backgroundColor: const Color.fromARGB(255, 65, 14, 160),
+        textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme),
+        colorScheme: const ColorScheme.dark(
+          background: Color.fromARGB(255, 40, 38, 40),
+          primary: Color.fromARGB(255, 65, 14, 160),
+          onBackground: Colors.white,
+          onPrimary: Colors.white,
+          secondary: Color.fromARGB(255, 240, 240, 240),
+        ),
+        drawerTheme: const DrawerThemeData(),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15),
             ),
+            backgroundColor: const Color.fromARGB(255, 65, 14, 160),
           ),
-          useMaterial3: true,
-          primaryColor: const Color.fromRGBO(95, 55, 225, 1),
-          listTileTheme: ListTileThemeData(
-            textColor: Colors.black,
-          )),
+        ),
+        useMaterial3: true,
+        primaryColor: const Color.fromRGBO(95, 55, 225, 1),
+        listTileTheme: const ListTileThemeData(
+          textColor: Colors.black,
+        ),
+      ),
       home: isWelcome
           ? WelcomeScreen(
               shared: shared,

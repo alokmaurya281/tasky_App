@@ -7,7 +7,6 @@ import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:tasky_app/apis/projects_services.dart';
 import 'package:tasky_app/models/project_model.dart';
 import 'package:tasky_app/models/task_model.dart';
-import 'package:tasky_app/screens/tasks_information_screen.dart';
 
 class ProjectInformationScreen extends StatefulWidget {
   final Project project;
