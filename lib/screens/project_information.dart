@@ -450,8 +450,9 @@ class _ProjectInformationScreenState extends State<ProjectInformationScreen> {
                                             child: Padding(
                                               padding:
                                                   const EdgeInsets.symmetric(
-                                                      vertical: 8,
-                                                      horizontal: 16),
+                                                vertical: 8,
+                                                horizontal: 16,
+                                              ),
                                               child: Row(
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
