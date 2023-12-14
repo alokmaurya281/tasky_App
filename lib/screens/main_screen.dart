@@ -1,13 +1,15 @@
-// ignore_for_file: must_be_immutable
-
+// ignore_for_file: must_be_immutable, use_build_context_synchronously
 
 import 'package:flutter/material.dart';
+import 'package:tasky_app/apis/authentication.dart';
 import 'package:tasky_app/screens/add_project_screen.dart';
 import 'package:tasky_app/screens/add_task_screen.dart';
+import 'package:tasky_app/screens/auth/login_screen.dart';
 import 'package:tasky_app/screens/home_screen.dart';
 import 'package:tasky_app/screens/notes_scren.dart';
 import 'package:tasky_app/screens/profile_screen.dart';
 import 'package:tasky_app/screens/todays_task_screen.dart';
+import 'package:tasky_app/utils/dialogs.dart';
 
 class MainScreen extends StatefulWidget {
   int currntIndex;
@@ -30,6 +32,28 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: Drawer(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ListTile(
+              onTap: () async {
+                Dialogs.showProgressIndicator(context);
+                await Authentication.signout(context);
+                Navigator.pop(context);
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) {
+                  return const LoginScreen();
+                }));
+              },
+              leading: const Icon(
+                Icons.logout,
+              ),
+              title: const Text('Logout'),
+            )
+          ],
+        ),
+      ),
       body: pageScreen.elementAt(widget.currntIndex),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: ClipRRect(

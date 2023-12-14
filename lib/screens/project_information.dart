@@ -5,8 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:tasky_app/apis/projects_services.dart';
+import 'package:tasky_app/models/checkpoints.dart';
 import 'package:tasky_app/models/project_model.dart';
 import 'package:tasky_app/models/task_model.dart';
+import 'package:tasky_app/screens/add_project_screen.dart';
+import 'package:tasky_app/screens/tasks_information_screen.dart';
 
 class ProjectInformationScreen extends StatefulWidget {
   final Project project;
@@ -353,55 +356,208 @@ class _ProjectInformationScreenState extends State<ProjectInformationScreen> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 8),
             child: SizedBox(
-              height: 100,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: 10,
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                    onTap: () {
-                      // Navigator.push(context,
-                      //     MaterialPageRoute(builder: (context) {
-                      //   return TasksInformationScreen(taskModel: ,);
-                      // }));
-                    },
-                    child: Card(
-                      margin: const EdgeInsets.only(right: 16),
-                      color: const Color.fromARGB(255, 239, 225, 255),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 16, horizontal: 16),
-                        child: SizedBox(
-                          width: 200,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Create and develop home page',
-                                style: TextStyle(
-                                  color:
-                                      Theme.of(context).colorScheme.onPrimary,
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 16,
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 16,
-                              ),
-                              LinearPercentIndicator(
-                                padding: EdgeInsets.zero,
-                                barRadius: const Radius.circular(15),
-                                lineHeight: 8.0,
-                                backgroundColor: Colors.white,
-                                percent: 50 / 100,
-                                progressColor: Theme.of(context).primaryColor,
-                              ),
-                            ],
+              height: 120,
+              width: double.infinity,
+              child: StreamBuilder(
+                stream: ProjectServices.getAllMyTasks(),
+                builder: (context, snapshot) {
+                  final data = snapshot.data?.docs;
+                  List<TaskModel> list =
+                      data?.map((e) => TaskModel.fromJson(e.data())).toList() ??
+                          [];
+                  if (list.isNotEmpty) {
+                    return ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: list.length,
+                      itemBuilder: (context, index) {
+                        return StreamBuilder(
+                          stream: ProjectServices.getprojectInfo(
+                            list[index].projectId,
                           ),
+                          builder: (context, snapshot) {
+                            final projectInfo = snapshot.data?.data();
+                            switch (snapshot.connectionState) {
+                              case ConnectionState.waiting:
+                              case ConnectionState.none:
+                                return const Center(
+                                  child: SizedBox(
+                                    width: 25,
+                                    height: 25,
+                                    child: CircularProgressIndicator.adaptive(),
+                                  ),
+                                );
+                              case ConnectionState.active:
+                              case ConnectionState.done:
+                                return StreamBuilder(
+                                  stream:
+                                      ProjectServices.getAllCheckPointsByTask(
+                                          list[index].id),
+                                  builder: (context, snapshot) {
+                                    final checkPointsAll = snapshot.data?.docs;
+                                    List<CheckPoints> checkpointsList =
+                                        checkPointsAll
+                                                ?.map(
+                                                  (e) => CheckPoints.fromJson(
+                                                      e.data()),
+                                                )
+                                                .toList() ??
+                                            [];
+                                    return StreamBuilder(
+                                      stream: ProjectServices
+                                          .getCheckPointsByStatus(
+                                              list[index].id, 'Completed'),
+                                      builder: (context, snapshot) {
+                                        final data = snapshot.data?.docs;
+                                        // print(data);
+                                        List<CheckPoints> completedCheckPoints =
+                                            data
+                                                    ?.map((e) =>
+                                                        CheckPoints.fromJson(
+                                                            e.data()))
+                                                    .toList() ??
+                                                [];
+                                        final double progress = ProjectServices
+                                            .countProjectProgress(
+                                          checkpointsList.length.toDouble(),
+                                          completedCheckPoints.length
+                                              .toDouble(),
+                                        );
+                                        return GestureDetector(
+                                          onTap: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) {
+                                                  return TasksInformationScreen(
+                                                    taskModel: list[index],
+                                                  );
+                                                },
+                                              ),
+                                            );
+                                          },
+                                          onLongPress: () {
+                                            showBottomModal(
+                                                context,
+                                                TextEditingController(),
+                                                'Select Team Memeber',
+                                                () {});
+                                          },
+                                          child: Card(
+                                            margin: const EdgeInsets.only(
+                                                left: 8, right: 8),
+                                            color: const Color.fromARGB(
+                                                255, 239, 225, 255),
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 8,
+                                                      horizontal: 16),
+                                              child: Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  SizedBox(
+                                                    width: 160,
+                                                    child: Column(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceAround,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Text(
+                                                          projectInfo?[
+                                                              'project_name'],
+                                                          style: TextStyle(
+                                                            color: Theme.of(
+                                                                    context)
+                                                                .colorScheme
+                                                                .onPrimary,
+                                                            fontSize: 14,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .normal,
+                                                          ),
+                                                        ),
+                                                        Text(
+                                                          list[index].taskName,
+                                                          style: TextStyle(
+                                                            color: Theme.of(
+                                                                    context)
+                                                                .colorScheme
+                                                                .onPrimary,
+                                                            fontWeight:
+                                                                FontWeight.w700,
+                                                            fontSize: 16,
+                                                          ),
+                                                        ),
+                                                        LinearPercentIndicator(
+                                                          backgroundColor:
+                                                              Colors.white,
+                                                          padding:
+                                                              EdgeInsets.zero,
+                                                          barRadius:
+                                                              const Radius
+                                                                  .circular(15),
+                                                          lineHeight: 8.0,
+                                                          percent:
+                                                              progress / 100,
+                                                          progressColor:
+                                                              Theme.of(context)
+                                                                  .primaryColor,
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  Container(
+                                                    width: 30,
+                                                    height: 30,
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              15),
+                                                    ),
+                                                    child: ClipRRect(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              5),
+                                                      child: CachedNetworkImage(
+                                                        fit: BoxFit.cover,
+                                                        imageUrl: projectInfo?[
+                                                            'project_icon'],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    );
+                                  },
+                                );
+                            }
+                          },
+                        );
+                      },
+                    );
+                  } else {
+                    return Center(
+                      child: Text(
+                        'No Task Found',
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.onPrimary,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
-                    ),
-                  );
+                    );
+                  }
                 },
               ),
             ),
@@ -409,6 +565,152 @@ class _ProjectInformationScreenState extends State<ProjectInformationScreen> {
         ],
       ),
     );
+  }
+
+  void showBottomModal(BuildContext context, TextEditingController controller,
+      String modalName, onSave) {
+    showModalBottomSheet(
+        showDragHandle: true,
+        isScrollControlled: true,
+        context: context,
+        builder: (context) {
+          return SizedBox(
+            height: 600,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        modalName,
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.onPrimary,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) {
+                            return const AddProjectScreen();
+                          }));
+                        },
+                        child: Text(
+                          'Add New Project',
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.primary,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 16,
+                  ),
+                  StreamBuilder(
+                    stream: ProjectServices.getAllMyprojects(),
+                    builder: (context, snapshot) {
+                      switch (snapshot.connectionState) {
+                        case ConnectionState.waiting:
+                        case ConnectionState.none:
+                          return const Center(
+                            child: SizedBox(
+                              width: 25,
+                              height: 25,
+                              child: CircularProgressIndicator.adaptive(),
+                            ),
+                          );
+                        case ConnectionState.active:
+                        case ConnectionState.done:
+                          if (snapshot.hasData) {
+                            final data = snapshot.data?.docs;
+                            List<Project> list = data
+                                    ?.map((e) => Project.fromJson(e.data()))
+                                    .toList() ??
+                                [];
+
+                            return Expanded(
+                              child: ListView.builder(
+                                scrollDirection: Axis.vertical,
+                                physics: const AlwaysScrollableScrollPhysics(),
+                                itemCount: list.length,
+                                itemBuilder: (context, index) {
+                                  return Padding(
+                                    padding:
+                                        const EdgeInsets.symmetric(vertical: 8),
+                                    child: ListTile(
+                                      onTap: () {
+                                        Navigator.pop(context);
+                                        // setState(() {
+                                        //   selectedProject = list[index];
+                                        //   projectController.text =
+                                        //       selectedProject!.projectName;
+                                        // });
+                                      },
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(20),
+                                      ),
+                                      tileColor: Colors.white,
+                                      title: Text(
+                                        list[index].projectName,
+                                        style: const TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                      leading: Container(
+                                        width: 40,
+                                        height: 40,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                          color: const Color.fromARGB(
+                                              255, 250, 218, 218),
+                                        ),
+                                        child: CachedNetworkImage(
+                                          imageUrl: list[index].projectIcon,
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                            );
+                          } else {
+                            return Center(
+                              child: Text(
+                                'No Projects',
+                                style: TextStyle(
+                                  color:
+                                      Theme.of(context).colorScheme.onPrimary,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            );
+                          }
+                      }
+                    },
+                  ),
+                  const SizedBox(
+                    height: 16,
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
   }
 
   Widget _appBar() {

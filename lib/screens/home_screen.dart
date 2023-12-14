@@ -232,6 +232,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
+          // Hi this is progress task if there is any and here progress of task is showing  ....
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 8),
             child: SizedBox(
@@ -275,12 +276,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                     final checkPointsAll = snapshot.data?.docs;
                                     List<CheckPoints> checkpointsList =
                                         checkPointsAll
-                                                ?.map((e) =>
-                                                    CheckPoints.fromJson(
-                                                        e.data()))
+                                                ?.map(
+                                                  (e) => CheckPoints.fromJson(
+                                                      e.data()),
+                                                )
                                                 .toList() ??
                                             [];
-                                    // print(checkPointsAll?.length);
                                     return StreamBuilder(
                                       stream: ProjectServices
                                           .getCheckPointsByStatus(
@@ -602,13 +603,18 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SizedBox(
                   width: 16,
                 ),
-                SizedBox(
-                  width: 50,
-                  height: 50,
-                  child: CircleAvatar(
-                    backgroundImage: CachedNetworkImageProvider(
-                      Authentication.user.photoURL ??
-                          'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fHww',
+                GestureDetector(
+                  onTap: () {
+                    Scaffold.of(context).openDrawer();
+                  },
+                  child: SizedBox(
+                    width: 50,
+                    height: 50,
+                    child: CircleAvatar(
+                      backgroundImage: CachedNetworkImageProvider(
+                        Authentication.user.photoURL ??
+                            'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fHww',
+                      ),
                     ),
                   ),
                 ),

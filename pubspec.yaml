@@ -50,6 +50,7 @@ dependencies:
   percent_indicator: ^4.2.3
   intl: ^0.18.1
   image_picker: ^1.0.4
+  date_picker_timeline: ^1.2.5
 
 dev_dependencies:
   flutter_test:
@@ -122,3 +123,7 @@ flutter_launcher_icons:
   macos:
     generate: true
     image_path: "assets/icons/tasky_logo.png"
+
+
+
+

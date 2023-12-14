@@ -336,7 +336,7 @@ class _TasksInformationScreenState extends State<TasksInformationScreen> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 8),
             child: SizedBox(
-              height: 100,
+              height: 110,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: 10,
