@@ -26,6 +26,19 @@ class Authentication {
         .exists;
   }
 
+  static Stream<DocumentSnapshot<Map<String, dynamic>>> getuserInfo(
+      String userid) {
+    return Authentication.firestore.collection('users').doc(userid).snapshots();
+  }
+
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getuserbyEmail(
+      String userid) {
+    return Authentication.firestore
+        .collection('users')
+        .where('email', isEqualTo: userid)
+        .snapshots();
+  }
+
   // for inserting user into database
 
   static Future<void> createUser() async {

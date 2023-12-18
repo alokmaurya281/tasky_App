@@ -8,6 +8,7 @@ import 'package:tasky_app/apis/projects_services.dart';
 import 'package:tasky_app/models/checkpoints.dart';
 import 'package:tasky_app/models/project_model.dart';
 import 'package:tasky_app/models/task_model.dart';
+import 'package:tasky_app/screens/main_screen.dart';
 import 'package:tasky_app/screens/project_information.dart';
 import 'package:tasky_app/screens/tasks_information_screen.dart';
 
@@ -481,70 +482,87 @@ class _HomeScreenState extends State<HomeScreen> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           SizedBox(
-                            width: 120,
+                            width: list.length == 0 ? 200 : 120,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(
-                                  progress <= 0.0
-                                      ? 'Your today\'s task is Pending!.'
-                                      : progress <= 50.0
-                                          ? 'Your today\'s task half done!.'
-                                          : progress <= 75.0
-                                              ? 'Your today\'s task almost done!.'
-                                              : progress < 100.0
-                                                  ? 'Your today\'s task about to done!.'
-                                                  : 'Your today\'s task is Completed!.',
+                                list.length == 0
+                                    ? Text(
+                                        'You have no pending tasks for today.',
+                                        style: TextStyle(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onBackground,
+                                          fontSize: 16,
+                                        ),
+                                      )
+                                    : Text(
+                                        progress <= 0.0
+                                            ? 'Your today\'s task is Pending!.'
+                                            : progress <= 50.0
+                                                ? 'Your today\'s task half done!.'
+                                                : progress <= 75.0
+                                                    ? 'Your today\'s task almost done!.'
+                                                    : progress < 100.0
+                                                        ? 'Your today\'s task about to done!.'
+                                                        : 'Your today\'s task is Completed!.',
+                                        style: TextStyle(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onBackground,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                const SizedBox(
+                                  height: 8,
+                                ),
+                                if (list.length != 0)
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.push(context,
+                                          MaterialPageRoute(builder: (context) {
+                                        return MainScreen(currntIndex: 2);
+                                      }));
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Theme.of(context)
+                                          .colorScheme
+                                          .onBackground,
+                                    ),
+                                    child: Text(
+                                      'View Task',
+                                      style: TextStyle(
+                                        color: Theme.of(context).primaryColor,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ),
+                              ],
+                            ),
+                          ),
+                          if (list.length != 0)
+                            Center(
+                              child: CircularPercentIndicator(
+                                lineWidth: 8,
+                                percent: progress / 100,
+                                backgroundColor: Theme.of(context)
+                                    .colorScheme
+                                    .primary
+                                    .withOpacity(.5),
+                                progressColor: Colors.white,
+                                radius: 35,
+                                center: Text(
+                                  '${progress.toStringAsFixed(2)}%',
                                   style: TextStyle(
                                     color: Theme.of(context)
                                         .colorScheme
                                         .onBackground,
-                                    fontSize: 16,
                                   ),
-                                ),
-                                const SizedBox(
-                                  height: 8,
-                                ),
-                                ElevatedButton(
-                                  onPressed: () {},
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: Theme.of(context)
-                                        .colorScheme
-                                        .onBackground,
-                                  ),
-                                  child: Text(
-                                    'View Task',
-                                    style: TextStyle(
-                                      color: Theme.of(context).primaryColor,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Center(
-                            child: CircularPercentIndicator(
-                              lineWidth: 8,
-                              percent: progress / 100,
-                              backgroundColor: Theme.of(context)
-                                  .colorScheme
-                                  .primary
-                                  .withOpacity(.5),
-                              progressColor: Colors.white,
-                              radius: 35,
-                              center: Text(
-                                '${progress.toStringAsFixed(2)}%',
-                                style: TextStyle(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .onBackground,
                                 ),
                               ),
                             ),
-                          ),
                           SizedBox(
                             width: 50,
                             height: 100,

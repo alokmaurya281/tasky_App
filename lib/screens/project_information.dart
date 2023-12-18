@@ -2,12 +2,13 @@
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:tasky_app/apis/authentication.dart';
 import 'package:tasky_app/apis/projects_services.dart';
 import 'package:tasky_app/models/checkpoints.dart';
 import 'package:tasky_app/models/project_model.dart';
 import 'package:tasky_app/models/task_model.dart';
+import 'package:tasky_app/models/user_model.dart';
 import 'package:tasky_app/screens/add_project_screen.dart';
 import 'package:tasky_app/screens/tasks_information_screen.dart';
 
@@ -61,11 +62,7 @@ class _ProjectInformationScreenState extends State<ProjectInformationScreen> {
                     ),
                   ),
                   const SizedBox(
-                    height: 16,
-                  ),
-                  _taskProgressViewCard(context),
-                  const SizedBox(
-                    height: 12,
+                    height: 22,
                   ),
                   Text(
                     widget.project.projectName,
@@ -124,15 +121,22 @@ class _ProjectInformationScreenState extends State<ProjectInformationScreen> {
                           const SizedBox(
                             width: 12,
                           ),
-                          Text(
-                            'Alok maurya',
-                            style: TextStyle(
-                              overflow: TextOverflow.ellipsis,
-                              color: Theme.of(context).colorScheme.onPrimary,
-                              fontWeight: FontWeight.w400,
-                              fontSize: 16,
-                            ),
-                          ),
+                          StreamBuilder(
+                              stream: Authentication.getuserInfo(
+                                  widget.project.projectManager),
+                              builder: (context, snapshot) {
+                                final data = snapshot.data?.data();
+                                return Text(
+                                  data!['name'],
+                                  style: TextStyle(
+                                    overflow: TextOverflow.ellipsis,
+                                    color:
+                                        Theme.of(context).colorScheme.onPrimary,
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 16,
+                                  ),
+                                );
+                              }),
                         ],
                       ),
                     ],
@@ -152,7 +156,7 @@ class _ProjectInformationScreenState extends State<ProjectInformationScreen> {
                     height: 5,
                   ),
                   Text(
-                    "Getting back to our subject, technically speaking, the Firebase Realtime Database doesn't store arrays. It can store structures called associate arrays, which represent: An abstract data type that stores a collection of (key, value) pairs. That's definitely possible.",
+                    widget.project.description,
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.onPrimary,
                       fontSize: 16,
@@ -174,106 +178,9 @@ class _ProjectInformationScreenState extends State<ProjectInformationScreen> {
     );
   }
 
-  Padding _taskProgressViewCard(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 8, bottom: 8),
-      child: StreamBuilder(
-        stream: ProjectServices.filterTaskByDate(),
-        builder: (context, snapshot) {
-          switch (snapshot.connectionState) {
-            case ConnectionState.waiting:
-            case ConnectionState.none:
-              return const Center(
-                child: SizedBox(
-                  width: 25,
-                  height: 25,
-                  child: CircularProgressIndicator.adaptive(),
-                ),
-              );
-            case ConnectionState.active:
-            case ConnectionState.done:
-              final data = snapshot.data?.docs;
-              List<TaskModel> list =
-                  data?.map((e) => TaskModel.fromJson(e.data())).toList() ?? [];
-              return StreamBuilder(
-                stream: ProjectServices.filterTaskByDateAndStatus('Completed'),
-                builder: (context, snapshot) {
-                  final data = snapshot.data?.docs;
-                  List<TaskModel> compltedTasks =
-                      data?.map((e) => TaskModel.fromJson(e.data())).toList() ??
-                          [];
-
-                  final double progress = ProjectServices.countProjectProgress(
-                      list.length.toDouble(), compltedTasks.length.toDouble());
-                  return Card(
-                    margin: const EdgeInsets.symmetric(horizontal: 0),
-                    color: Theme.of(context).primaryColor,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 16, horizontal: 8),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          SizedBox(
-                            width: 160,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  progress <= 0.0
-                                      ? 'Your today\'s project is Pending!.'
-                                      : progress <= 50.0
-                                          ? 'Your today\'s project half done!.'
-                                          : progress <= 75.0
-                                              ? 'Your today\'s project almost done!.'
-                                              : progress < 100.0
-                                                  ? 'Your today\'s project about to done!.'
-                                                  : 'Your today\'s project is Completed!.',
-                                  style: TextStyle(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onBackground,
-                                    fontSize: 16,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Center(
-                            child: CircularPercentIndicator(
-                              lineWidth: 8,
-                              percent: progress / 100,
-                              backgroundColor: Theme.of(context)
-                                  .colorScheme
-                                  .primary
-                                  .withOpacity(.5),
-                              progressColor: Colors.white,
-                              radius: 35,
-                              center: Text(
-                                '${progress.toStringAsFixed(2)}%',
-                                style: TextStyle(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .onBackground,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                },
-              );
-          }
-        },
-      ),
-    );
-  }
-
   Column _teamMembers(BuildContext context) {
+    List<String> teamMembers = widget.project.teamMembers.split(',');
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -288,46 +195,61 @@ class _ProjectInformationScreenState extends State<ProjectInformationScreen> {
         SizedBox(
           height: (90.0 * 10),
           child: ListView.builder(
-            itemCount: 10,
+            itemCount: teamMembers.length,
             primary: false,
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (context, index) {
               return Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-                child: ListTile(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  tileColor: const Color.fromARGB(118, 219, 215, 255),
-                  title: const Text(
-                    'Team Person Name',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  subtitle: const Text(
-                    'user@gmail.com',
-                    style: TextStyle(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                  leading: Container(
-                    width: 40,
-                    height: 40,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(20),
-                      child: CachedNetworkImage(
-                        fit: BoxFit.cover,
-                        imageUrl: widget.project.projectIcon,
-                      ),
-                    ),
-                  ),
-                ),
+                child: StreamBuilder(
+                    stream: Authentication.getuserbyEmail(teamMembers[index]),
+                    builder: (context, snapshot) {
+                      final userInfo = snapshot.data?.docs;
+                      List<UserModel> users = userInfo
+                              ?.map(
+                                (e) => UserModel.fromJson(e.data()),
+                              )
+                              .toList() ??
+                          [];
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(
+                            child: CircularProgressIndicator.adaptive());
+                      }
+                      return ListTile(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        tileColor: const Color.fromARGB(118, 219, 215, 255),
+                        title: Text(
+                          users[0].name,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        subtitle: Text(
+                          users[0].email,
+                          style: const TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        leading: Container(
+                          width: 40,
+                          height: 40,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            child: CachedNetworkImage(
+                              fit: BoxFit.cover,
+                              imageUrl: users[0].image,
+                            ),
+                          ),
+                        ),
+                      );
+                    }),
               );
             },
           ),
