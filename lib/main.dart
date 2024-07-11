@@ -7,6 +7,7 @@ import 'package:tasky_app/screens/auth/login_screen.dart';
 import 'package:tasky_app/screens/main_screen.dart';
 import 'package:tasky_app/screens/welcome_screen.dart';
 import 'package:tasky_app/utils/intialize_app.dart';
+/////////////
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
